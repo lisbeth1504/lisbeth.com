@@ -1,139 +1,317 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Mi Página con Contenido</title>
-  <link rel="stylesheet" href="estilos.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MST CERTIFICA</title>
+
+    <!-- Fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        h1 {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+
+        .upload-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #3498db;
+        }
+
+        .upload-section label {
+            font-weight: 500;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .upload-section input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px dashed #bdc3c7;
+            border-radius: 5px;
+            background: #ecf0f1;
+        }
+
+        /* CERTIFICADO */
+        .certificate-template {
+            width: 910px;
+            height: 610px;
+            margin: 20px auto;
+            position: relative;
+            text-align: center;
+
+            background-image: url('certificado.png');
+            background-size: cover;
+            background-position: center;
+
+            padding-top: 5px; /* 🔥 BAJA TODO EL TEXTO HACIA ABAJO */
+                }
+
+        .certificate-template h2 {
+    margin-top: 80px;   /* ← mueve el texto hacia abajo */
+    margin-bottom: 5px;
+    font-size: 65px;
+    line-height: 1.1;
+    color: #0B2A66;
+    font-family: "Georgia";
+}
+
+
+        .certificate-template h3 {
+            margin: 4px 0;
+            font-size: 25px;
+            line-height: 1.2;
+            color: #1F3A93;
+        }
+
+        .certificate-template p {
+            font-size: 30px;
+            margin: 6px 0;
+            line-height: 1.35;
+            color: #222222;
+        }
+
+        .certificate-template h4 {
+            margin: 5px 0;
+            font-size: 35px;
+            line-height: 1.2;
+        }
+
+        .certificate-template h5 {
+            text-align: center;
+            width: 80%;
+            margin: 10px auto;
+            font-size: 16px;
+            line-height: 1.4;
+            font-weight: normal; /* 🔥 QUITA CUALQUIER NEGRITA */
+        }
+
+        #studentName {
+            font-size: 35px;
+            font-weight: bold;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            line-height: 60px;
+        }
+
+        .qr-code {
+        position: absolute;
+        top: 20px;
+        right: 10px;   /* 🔥 Antes estaba right: 20px */
+        width: 850px;
+        height: 100px;
+        }
+
+        #dateBox {
+            position: absolute;
+            bottom: 10px;   /* 🔥 Pegado al borde inferior */
+            right: 20px;    /* Alineado a la derecha */
+            font-size: 17px;
+            font-weight: normal;
+            color: #000;
+            margin: 0;
+        }
+
+        .signatures-section {
+            position: absolute;
+            bottom: 35px;   /* 🔥 Las firmas bajan hacia abajo */
+            left: 100px;
+            right: 100px;
+            display: flex;
+            justify-content:space-evenly;
+            align-items: center; /* más natural */
+        }
+
+        .signature {
+            text-align: center;
+            width: 32%;
+        }
+
+        .firma-img {
+            width: 170px;
+            height: auto;
+            margin-bottom: 0;   /* 🔥 Menos espacio entre firma y línea */
+        }
+
+
+        .signature-line {
+            width: 70%;
+            height: 2px;
+            background: #000;
+            margin: 2px auto 3px auto; /* 🔥 Línea MÁS CERCA de los textos */
+            border-radius: 2px;
+        }
+
+        .signature p {
+            margin:1px 0;
+            font-size: 13px;
+            line-height: 1.1;  /* 🔥 Letras más juntas */
+            font-weight: bold;
+        }
+
+        #progress {
+            text-align: center;
+            margin-top: 20px;
+            font-weight: 500;
+            color: #3498db;
+            display: none;
+        }
+
+    </style>
 </head>
+
 <body>
+    <div class="container">
+        <h1>MANUEL SCORZA CERTIFICA</h1>
 
-  <!-- Encabezado principal -->
-  <h1>Bienvenido a Mi Página</h1>
+        <div class="upload-section">
+            <label for="excelFile">Sube un archivo Excel con la columna de nombres:</label>
+            <input type="file" id="excelFile" accept=".xlsx, .xls">
+        </div>
 
-  <!-- Subtítulo o sección -->
-  <h2>Acerca de mí</h2>
-  <p>Soy estudiante de arquitectura y estoy aprendiendo desarrollo web.</p>
+        <div class="certificate-template" id="template">
+            <h2>CERTIFICADO </h2>
+            <h3>DE RECONOCIMIENTO</h3>
+            <p>Otorgado a:</p>
+            <h4 id="studentName">[Nombre del Estudiante]</h4>
 
-  <!-- Imagen -->
-  <img src="img/foto.jpg" alt="Una foto mía" width="300">
+            <h5>
+                Por haber completado satisfactoriamente el Diplomado en Publicidad y Marketing Digital, desarrollado en la modalidad online, demostrando dedicación, compromiso académico y la adquisición de competencias fundamentales para el desempeño profesional en el ámbito digital.
+            </h5>
 
-  <!-- Lista -->
-  <h2>Mis habilidades</h2>
-  <ul>
-    <li>Dibujo técnico</li>
-    <li>AutoCAD</li>
-    <li>HTML y CSS</li>
-  </ul>
+            <p id="dateBox">Fecha: <span id="date">[Fecha]</span></p>
 
-  <!-- Enlace -->
-  <p>Visita mi <a href="https://www.instagram.com" target="_blank">Instagram</a>.</p>
+            <div id="qrCode" class="qr-code"></div>
 
-  <!-- Botón -->
-  <button>Haz clic aquí</button>
+            <div class="signatures-section">
+                <div class="signature">
+                    <img src="firma.png" class="firma-img">
+                    <div class="signature-line"></div>
+                    <p>Firma del Director</p>
+                    <p>Dr. Juan Pérez</p>
+                </div>
 
-  <!-- Pie de página -->
-  <footer>
-    <p>© 2025 Mi Página Web</p>
-  </footer>
+                <div class="signature">
+                    <img src="firma.png" class="firma-img">
+                    <div class="signature-line"></div>
+                    <p>Firma del Estudiante</p>
+                    <p id="studentSignature">[Firma Estudiante]</p>
+                </div>
+            </div>
+        </div>
 
-</body>
-</html>
-<!-- Sección: Habilidades -->
-  <section id="habilidades">
-    <h2>Mis habilidades</h2>
-    <ul>
-      <li>Dibujo técnico</li>
-      <li>AutoCAD</li>
-      <li>HTML y CSS</li>
-    </ul>
-  </section>
-
-  <!-- Sección: Redes Sociales -->
-  <section id="redes-sociales">
-    <p>Visita mi <a href="https://www.instagram.com" target="_blank">Instagram</a>.</p>
-  </section>
-
-  <!-- Sección: Botón -->
-  <section id="boton">
-    <button>Haz clic aquí</button>
-  </section>
-
-  <!-- Sección: Video -->
-  <section id="video">
-    <h2>Mi Video Favorito</h2>
-    <video width="400" controls>
-      <source src="video.mp4" type="video/mp4">
-      Tu navegador no soporta video HTML5.
-    </video>
-  </section>
-
-  <!-- Sección: Audio -->
-  <section id="audio">
-    <h2>Audio Inspirador</h2>
-    <audio controls>
-      <source src="musica.mp3" type="audio/mpeg">
-      Tu navegador no soporta audio HTML5.
-    </audio>
-  </section>
-
-  <!-- Sección: Formulario -->
-  <section id="formulario">
-    <h2>Contáctame</h2>
-    <form action="#" method="post">
-      <label for="nombre">Nombre:</label><br>
-      <input type="text" id="nombre" name="nombre" required><br><br>
-
-      <label for="email">Correo:</label><br>
-      <input type="email" id="email" name="email" required><br><br>
-
-      <label for="mensaje">Mensaje:</label><br>
-      <textarea id="mensaje" name="mensaje" rows="4" cols="30"></textarea><br><br>
-
-      <input type="submit" value="Enviar">
-    </form>
-  </section>
-
-  <!-- Sección: Tabla -->
-  <section id="tabla">
-    <h2>Horario de Clases</h2>
-    <table border="1">
-      <thead>
-        <tr>
-          <th>Día</th>
-          <th>Materia</th>
-          <th>Hora</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Lunes</td>
-          <td>Arquitectura y Diseño Web</td>
-          <td>10:00 - 12:00</td>
-        </tr>
-        <tr>
-          <td>Miércoles</td>
-          <td>Programación Distribuida</td>
-          <td>14:00 - 16:00</td>
-        </tr>
-        <tr>
-          <td>Viernes</td>
-          <td>HTML y CSS</td>
-          <td>09:00 - 11:00</td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-
-  <!-- División personalizada -->
-  <div id="extra-info">
-    <h2>Información adicional</h2>
-    <p>Estoy trabajando en varios proyectos de diseño arquitectónico y explorando herramientas como SketchUp y Revit.</p>
-  </div>
-
-  <!-- Pie de página -->
-  <footer>
-    <p>© 2025 Mi Página Web</p>
-  </footer>
-
+        <p id="progress">Generando certificados...</p>
+    </div>
+
+    <!-- LIBRERÍAS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+    <script>
+        let students = [];
+
+        function getRandomDate() {
+            const start = new Date(2020, 0, 1);
+            const end = new Date();
+            return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
+                .toLocaleDateString('es-ES');
+        }
+
+        document.getElementById('excelFile').addEventListener('change', function(e) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const data = new Uint8Array(event.target.result);
+                const workbook = XLSX.read(data, {type: 'array'});
+
+                const sheet = workbook.Sheets[workbook.SheetNames[0]];
+                students = XLSX.utils.sheet_to_json(sheet);
+
+                if (students.length === 0) {
+                    alert('El archivo Excel no contiene datos válidos.');
+                    return;
+                }
+
+                generateAllCertificates();
+            };
+            reader.readAsArrayBuffer(e.target.files[0]);
+        });
+
+        function generateQR() {
+            const qrContainer = document.getElementById('qrCode');
+            qrContainer.innerHTML = '';
+
+            new QRCode(qrContainer, {
+                text: "certificado.png",
+                width: 120,
+                height: 120,
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
+
+        generateQR();
+
+        async function generateAllCertificates() {
+            document.getElementById('progress').style.display = 'block';
+
+            const zip = new JSZip();
+            const folder = zip.folder("certificados");
+
+            for (let i = 0; i < students.length; i++) {
+                const student = students[i];
+
+                const columns = Object.keys(student);
+                const name = student[columns[0]] || "Nombre Desconocido";
+
+                const randomDate = getRandomDate();
+
+                document.getElementById('studentName').textContent = name;
+                document.getElementById('studentSignature').textContent = name;
+                document.getElementById('date').textContent = randomDate;
+
+                await new Promise(res => setTimeout(res, 500));
+
+                const canvas = await html2canvas(document.getElementById('template'));
+                const imgData = canvas.toDataURL('image/png');
+                const blob = await (await fetch(imgData)).blob();
+
+                folder.file(`certificado_${name}_${i + 1}.png`, blob);
+            }
+
+            zip.generateAsync({type: "blob"}).then(content => {
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(content);
+                link.download = "certificados.zip";
+                link.click();
+            });
+
+            document.getElementById('progress').style.display = 'none';
+        }
+    </script>
 </body>
 </html>
